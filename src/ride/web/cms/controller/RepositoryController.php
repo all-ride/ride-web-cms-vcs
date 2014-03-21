@@ -17,6 +17,8 @@ class RepositoryController extends AbstractController {
      * @return null
      */
     public function indexAction(VcsApplicationListener $vcs) {
+        $vcs->ensureRepositoryExistance();
+
         $repository = $vcs->getRepository();
 
         $commits = $repository->getCommits(null, 10);
@@ -33,6 +35,7 @@ class RepositoryController extends AbstractController {
      * @return null
      */
     public function updateAction(VcsApplicationListener $vcs) {
+        $vcs->ensureRepositoryExistance();
         $vcs->updateRepository();
 
         $referer = $this->request->getQueryParameter('referer');
