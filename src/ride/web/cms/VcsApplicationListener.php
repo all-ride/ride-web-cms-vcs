@@ -6,6 +6,7 @@ use ride\library\event\Event;
 use ride\library\event\EventManager;
 use ride\library\validation\exception\ValidationException;
 use ride\library\validation\ValidationError;
+use ride\library\vcs\exception\VcsException;
 use ride\library\vcs\Repository;
 
 use ride\web\WebApplication;
@@ -166,14 +167,26 @@ class VcsApplicationListener {
      * @throws \ride\library\vcs\exception\VcsException when no repository or
      * repository URL has been set
      */
-    public function ensureRepositoryExistance($branch) {
+    public function ensureRepositoryExistance($branch = null) {
         if (!$this->isValidRepository()) {
             throw new VcsException("Could not ensure repository existance: no repository or repository URL set");
         }
 
-        if (!$this->repository->isCreated()) {
-            $this->repository->create();
+        if (!$branch) {
+            $branch = $this->branch;
+
+            if (!$branch) {
+                throw new VcsException("Could not ensure repository existance: no branch set");
+            }
         }
+
+        if (!$this->repository->isCreated()) {
+            try {
+                $this->repository->checkout();
+            } catch (VcsException $exception) {
+                $this->repository->create();
+            }
+       }
 
         if ($this->repository->getBranch() == $branch) {
             return;
