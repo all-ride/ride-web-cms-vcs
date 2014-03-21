@@ -1,0 +1,75 @@
+{
+    "dependencies": [
+        {
+            "class": "ride\\web\\cms\\VcsApplicationListener",
+            "id": "cms",
+            "calls": [
+                {
+                    "method": "setRepository",
+                    "arguments": [
+                        {
+                            "name": "repository",
+                            "type": "dependency",
+                            "properties": {
+                                "interface": "ride\\library\\vcs\\Repository",
+                                "id": "cms"
+                            }
+                        },
+                        {
+                            "name": "branch",
+                            "type": "parameter",
+                            "properties": {
+                                "key": "cms.repository.branch",
+                                "default": "master"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "interfaces": "ride\\library\\vcs\\Repository",
+            "class": "ride\\library\\vcs\\git\\GitRepository",
+            "id": "cms",
+            "calls": [
+                {
+                    "method": "setUrl",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "parameter",
+                            "properties": {
+                                "key": "cms.repository.url"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "method": "setWorkingCopy",
+                    "arguments": [
+                        {
+                            "name": "workingCopy",
+                            "type": "call",
+                            "properties": {
+                                "interface": "ride\\library\\cms\\node\\io\\NodeIO",
+                                "method": "getPath"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "method": "setPrivateKey",
+                    "arguments": [
+                        {
+                            "name": "privateKey",
+                            "type": "parameter",
+                            "properties": {
+                                "key": "cms.repository.private.key"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
