@@ -193,9 +193,14 @@ class VcsApplicationListener {
         }
 
         if ($this->repository->hasBranch($branch)) {
-            $this->repository->checkoutBranch($branch);
+            $this->repository->checkout(array(
+                'branch' => $branch,
+            ));
         } else {
-            $this->repository->createBranch($branch);
+            $this->repository->checkout(array(
+                'branch' => $branch,
+                'orphan' => true,
+            ));
         }
     }
 
