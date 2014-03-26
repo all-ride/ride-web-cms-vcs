@@ -2,6 +2,8 @@
 
 namespace ride\web\cms\controller;
 
+use ride\library\vcs\exception\VcsException;
+
 use ride\web\base\controller\AbstractController;
 use ride\web\cms\VcsApplicationListener;
 
@@ -21,7 +23,11 @@ class RepositoryController extends AbstractController {
 
         $repository = $vcs->getRepository();
 
-        $commits = $repository->getCommits(null, 10);
+        try {
+            $commits = $repository->getCommits(null, 10);
+        } catch (VcsException $exception) {
+            $commits = array();
+        }
 
         $this->setTemplateView('cms/backend/repository', array(
             'commits' => $commits,

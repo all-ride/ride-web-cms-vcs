@@ -134,10 +134,20 @@ class VcsApplicationListener {
         $this->ensureRepositoryExistance($this->branch);
 
         // check for updates
-        $oldRevision = $this->repository->getRevision();
-        $this->repository->update();
-        $newRevision = $this->repository->getRevision();
+        try {
+            $oldRevision = $this->repository->getRevision();
+        } catch (VcsException $exception) {
+            $oldRevision = null;
+        }
 
+        $this->repository->update();
+
+        if (!$oldRevision) {
+            // no old revision, nothing committed
+            return;
+        }
+
+        $newRevision = $this->repository->getRevision();
         if (!$updateUrl || $oldRevision === $newRevision) {
             // no update URL and no conflicts, we're cool
             return;
