@@ -191,12 +191,9 @@ class VcsApplicationListener {
         }
 
         if (!$this->repository->isCreated()) {
-            try {
-                $this->repository->checkout(array('no-checkout' => true));
-            } catch (VcsException $exception) {
-                $this->repository->create();
-            }
-       }
+            $this->repository->create();
+            $this->repository->update();
+        }
 
         if ($this->repository->getBranch() == $branch) {
             return;
