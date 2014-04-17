@@ -192,7 +192,7 @@ class VcsApplicationListener {
 
         if (!$this->repository->isCreated()) {
             try {
-                $this->repository->checkout();
+                $this->repository->checkout(array('no-checkout' => true));
             } catch (VcsException $exception) {
                 $this->repository->create();
             }
