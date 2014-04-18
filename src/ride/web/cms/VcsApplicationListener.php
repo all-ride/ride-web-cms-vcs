@@ -207,20 +207,43 @@ class VcsApplicationListener {
             }
         }
 
+        $isCreated = false;
         if (!$this->repository->isCreated()) {
+            // repository is not set, initialize it and bring it up to date
             $this->repository->create();
             $this->repository->update();
         }
 
         if ($this->repository->getBranch() == $branch) {
+            // we are in the required branch
             return;
         }
 
         if ($this->repository->hasBranch($branch)) {
+            // branch exists
+            $workingCopy = $this->repository->getWorkingCopy();
+
+            $files = $workingCopy->read();
+            if (count($files) > 1) {
+                // copy the current files to a backup and so the branch checkout
+                // will not fail
+                $backupWorkingCopy = $workingCopy->getCopyFile();
+                $workingCopy->copy($backupWorkingCopy);
+
+                foreach ($files as $file) {
+                    if ($file->getName() == '.git') {
+                        continue;
+                    }
+
+                    $file->delete();
+                }
+            }
+
             $this->repository->checkout(array(
                 'branch' => $branch,
             ));
         } else {
+            // branch does not exist, create a new orphan branch for the content
             $this->repository->checkout(array(
                 'branch' => $branch,
                 'orphan' => true,
