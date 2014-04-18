@@ -9,6 +9,7 @@ use ride\library\validation\ValidationError;
 use ride\library\vcs\exception\VcsException;
 use ride\library\vcs\Repository;
 
+use ride\web\base\view\MenuItem;
 use ride\web\WebApplication;
 
 /**
@@ -39,6 +40,22 @@ class VcsApplicationListener {
      * @var string
      */
     private $branch;
+
+    /**
+     * Adds a menuitem for the repository to the taskbar
+     * @param \ride\library\event\Event $event
+     * @return null
+     */
+    public function prepareTaskbar(Event $event) {
+        $menuItem = new MenuItem();
+        $menuItem->setTranslation('title.repository');
+        $menuItem->setRoute('cms.repository');
+
+        $taskbar = $event->getArgument('taskbar');
+        $applicationMenu = $taskbar->getApplicationsMenu();
+        $sitesMenu = $applicationMenu->getItem('label.sites');
+        $sitesMenu->addMenuItem($menuItem);
+    }
 
     /**
      * Sets the content repository

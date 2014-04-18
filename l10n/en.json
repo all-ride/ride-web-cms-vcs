@@ -1,5 +1,5 @@
 {
-    "button.update.repository": "Update Repository",
+    "button.update.repository": "Update from repository",
     "error.validation.cms.repository.outdated": "Your site is outdated, please <a href=\"%url%\">update your content</a> first.",
     "label.repository.update": "Committed by %author% at %date%",
     "title.repository": "Repository"
