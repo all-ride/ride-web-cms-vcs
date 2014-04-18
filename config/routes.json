@@ -1,14 +1,14 @@
 {
     "routes": [
         {
-            "path": "/admin/cms/repository",
+            "path": "/sites/repository",
             "controller": "ride\\web\\cms\\controller\\RepositoryController",
             "action": "indexAction",
             "id": "cms.repository",
             "methods": ["get", "head"]
         },
         {
-            "path": "/admin/cms/repository",
+            "path": "/sites/repository",
             "controller": "ride\\web\\cms\\controller\\RepositoryController",
             "action": "updateAction",
             "id": "cms.repository.update",
