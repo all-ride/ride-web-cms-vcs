@@ -157,7 +157,7 @@ class VcsApplicationListener {
             $oldRevision = null;
         }
 
-        $this->repository->update();
+        $this->repository->update(array('origin' => 'origin', 'branch' => $this->branch));
 
         if (!$oldRevision) {
             // no old revision, nothing committed
@@ -211,7 +211,7 @@ class VcsApplicationListener {
         if (!$this->repository->isCreated()) {
             // repository is not set, initialize it and bring it up to date
             $this->repository->create();
-            $this->repository->update();
+            $this->repository->update(array('all' => true));
         }
 
         if ($this->repository->getBranch() == $branch) {
