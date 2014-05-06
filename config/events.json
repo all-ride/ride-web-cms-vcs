@@ -1,4 +1,10 @@
 {
+    "app.taskbar.pre": [
+        {
+            "interface": "ride\\web\\cms\\VcsApplicationListener",
+            "method": "prepareTaskbar"
+        }
+    ],
     "cms.node.action.pre": [
         {
             "interface": "ride\\web\\cms\\VcsApplicationListener",

@@ -9,6 +9,7 @@ use ride\library\validation\ValidationError;
 use ride\library\vcs\exception\VcsException;
 use ride\library\vcs\Repository;
 
+use ride\web\base\menu\MenuItem;
 use ride\web\WebApplication;
 
 /**
@@ -39,6 +40,22 @@ class VcsApplicationListener {
      * @var string
      */
     private $branch;
+
+    /**
+     * Adds a menuitem for the repository to the taskbar
+     * @param \ride\library\event\Event $event
+     * @return null
+     */
+    public function prepareTaskbar(Event $event) {
+        $menuItem = new MenuItem();
+        $menuItem->setTranslation('title.repository');
+        $menuItem->setRoute('cms.repository');
+
+        $taskbar = $event->getArgument('taskbar');
+        $applicationMenu = $taskbar->getApplicationsMenu();
+        $sitesMenu = $applicationMenu->getItem('label.sites');
+        $sitesMenu->addMenuItem($menuItem);
+    }
 
     /**
      * Sets the content repository
@@ -140,7 +157,7 @@ class VcsApplicationListener {
             $oldRevision = null;
         }
 
-        $this->repository->update();
+        $this->repository->update(array('origin' => 'origin', 'branch' => $this->branch));
 
         if (!$oldRevision) {
             // no old revision, nothing committed
@@ -190,23 +207,43 @@ class VcsApplicationListener {
             }
         }
 
+        $isCreated = false;
         if (!$this->repository->isCreated()) {
-            try {
-                $this->repository->checkout();
-            } catch (VcsException $exception) {
-                $this->repository->create();
-            }
-       }
+            // repository is not set, initialize it and bring it up to date
+            $this->repository->create();
+            $this->repository->update(array('all' => true));
+        }
 
         if ($this->repository->getBranch() == $branch) {
+            // we are in the required branch
             return;
         }
 
         if ($this->repository->hasBranch($branch)) {
+            // branch exists
+            $workingCopy = $this->repository->getWorkingCopy();
+
+            $files = $workingCopy->read();
+            if (count($files) > 1) {
+                // copy the current files to a backup and so the branch checkout
+                // will not fail
+                $backupWorkingCopy = $workingCopy->getCopyFile();
+                $workingCopy->copy($backupWorkingCopy);
+
+                foreach ($files as $file) {
+                    if ($file->getName() == '.git') {
+                        continue;
+                    }
+
+                    $file->delete();
+                }
+            }
+
             $this->repository->checkout(array(
                 'branch' => $branch,
             ));
         } else {
+            // branch does not exist, create a new orphan branch for the content
             $this->repository->checkout(array(
                 'branch' => $branch,
                 'orphan' => true,

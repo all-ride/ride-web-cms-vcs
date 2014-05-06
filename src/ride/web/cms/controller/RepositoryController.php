@@ -41,7 +41,6 @@ class RepositoryController extends AbstractController {
      * @return null
      */
     public function updateAction(VcsApplicationListener $vcs) {
-        $vcs->ensureRepositoryExistance();
         $vcs->updateRepository();
 
         $referer = $this->request->getQueryParameter('referer');
