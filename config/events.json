@@ -1,5 +1,5 @@
 {
-    "app.taskbar": [
+    "app.taskbar.pre": [
         {
             "interface": "ride\\web\\cms\\VcsApplicationListener",
             "method": "prepareTaskbar"

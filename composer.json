@@ -15,7 +15,7 @@
         "ride/lib-event": ">=0.3.0",
         "ride/lib-mvc": ">=0.2.0",
         "ride/web": ">=0.3.0",
-        "ride/web-base": ">=0.2.0"
+        "ride/web-base": ">=0.5.0"
     },
     "autoload": {
         "psr-0": {

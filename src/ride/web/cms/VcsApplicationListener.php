@@ -9,7 +9,7 @@ use ride\library\validation\ValidationError;
 use ride\library\vcs\exception\VcsException;
 use ride\library\vcs\Repository;
 
-use ride\web\base\view\MenuItem;
+use ride\web\base\menu\MenuItem;
 use ride\web\WebApplication;
 
 /**
