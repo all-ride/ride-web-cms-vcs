@@ -49,10 +49,10 @@
                     "arguments": [
                         {
                             "name": "workingCopy",
-                            "type": "call",
+                            "type": "dependency",
                             "properties": {
-                                "interface": "ride\\library\\cms\\node\\io\\NodeIO",
-                                "method": "getPath"
+                                "interface": "ride\\library\\system\\file\\File",
+                                "id": "cms.node"
                             }
                         }
                     ]
