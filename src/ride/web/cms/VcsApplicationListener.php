@@ -108,7 +108,7 @@ class VcsApplicationListener {
         if ($event->getArgument('action') == 'remove') {
             $nodes = $event->getArgument('nodes');
             foreach ($nodes as $node) {
-                $this->repository->remove($node->getRootNodeId() . '/' . $node->getId() . '.ini');
+                $this->repository->remove($node->getRootNodeId() . '/' . $node->getRevision() . '/' . $node->getId() . '.ini');
             }
         }
 
