@@ -53,7 +53,7 @@ class VcsApplicationListener {
 
         $taskbar = $event->getArgument('taskbar');
         $applicationMenu = $taskbar->getApplicationsMenu();
-        $sitesMenu = $applicationMenu->getItem('label.sites');
+        $sitesMenu = $applicationMenu->getItem('sites.menu');
         $sitesMenu->addMenuItem($menuItem);
     }
 
