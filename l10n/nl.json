@@ -2,5 +2,5 @@
     "button.update.repository": "Update van uit het magazijn",
     "error.validation.cms.repository.outdated": "De inhoud van uw site is niet meer up to date. <a href=\"%url%\">Update your content</a> first.",
     "label.repository.update": "Gecommit door %author% op %date%",
-    "title.repository": "Magazijn"
+    "title.repository": "Repository"
 }
