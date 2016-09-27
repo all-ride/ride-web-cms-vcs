@@ -1,0 +1,3 @@
+cms.repository.branch       Name of the branch in the CMS repository
+cms.repository.private.key  Path to the private key used to access the repository
+cms.repository.url          URL of the CMS repository
