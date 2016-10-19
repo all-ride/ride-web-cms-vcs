@@ -1,0 +1,3 @@
+cms.repository.branch       Name of the branch inside the repository eg. content-dev
+cms.repository.private.key  Path to the private key used to access the repository
+cms.repository.url          URL to the repository eg. git@github.com:all-ride/ride-web-cms-vcs.git
